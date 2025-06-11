@@ -1,10 +1,15 @@
 
-Feature: User should be able to write an appreciation
+Feature: User should be able to download the desktop app
 
 
-Scenario: User writes an successfully appreciation
-Given User is on the log in page
-Then User clicks the "More" tab and selects "Appreciation"
-And  User enters an appreciation message
-And  User clicks the "Send" button
-Then The appreciation should be posted in the stream
+  Scenario Outline: Users can download the desktop app
+    Given the <role> user is logged in
+    And the user is on the download page
+    When the user selects 3 desktop versions
+    Then the user should be able to download the desktop app for each version
+
+    Examples:
+      | role      |
+      | HR        |
+      | Helpdesk  |
+      | Marketing |
