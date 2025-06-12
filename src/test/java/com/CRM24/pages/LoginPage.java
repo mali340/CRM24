@@ -7,8 +7,8 @@ import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage {
 
-    public LoginPage(){
-        PageFactory.initElements(Driver.getDriver(),this);
+    public LoginPage() {
+        PageFactory.initElements(Driver.getDriver(), this);
     }
 
     @FindBy(name = "USER_LOGIN")
@@ -21,11 +21,17 @@ public class LoginPage {
     public WebElement loginButton;
 
 
-    public void login(String username,String password){
+    public void login(String username, String password) {
         this.inputUsername.sendKeys(username);
         this.inputPassword.sendKeys(password);
         this.loginButton.click();
     }
 
+    public void login() {
+        this.inputUsername.sendKeys("hr10@cydeo.com");
+        this.inputPassword.sendKeys("UserUser");
+        this.loginButton.click();
 
+
+    }
 }

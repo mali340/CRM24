@@ -4,7 +4,7 @@ Feature:Login functionality
   I want to log in to the application
   So that I can access my dashboard
 
-  @wip
+
   Scenario Outline: Login with different users
     Given I am on the login page
     When  I enter "<username>" as username, enter "<password>" as password
