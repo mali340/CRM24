@@ -14,22 +14,51 @@ public class AppreciationPage {
 
     }
 
-
-       @FindBy (id = "id=\"feed-add-post-form-link-more\"")
+       @FindBy (id = "feed-add-post-form-link-more")
        public WebElement moreButton;
 
 
-        @FindBy (xpath = "//span[text()=Appreciation']")
+        @FindBy (xpath = "//span[text()='Appreciation']")
         public WebElement appreciation;
 
 
         @FindBy (xpath = "//button[@id=\"blog-submit-button-save\"]")
         public WebElement sendButton;
 
-    @FindBy (xpath = "//body[@contenteditable=\"true\"]")
+    @FindBy (xpath = "//body[@style='min-height: 184px;']\t")
     public WebElement messageBox;
 
 
     @FindBy(className = "feed-add-info-text")
       public WebElement errorMessage;
+
+
+    @FindBy(xpath = "//a[text()='Add more']")
+    public WebElement addMoreButton;
+
+   @FindBy(xpath = "//a[text()='Employees and departments']")
+    public WebElement employeesAndDepartmentsButton;
+
+
+   @FindBy(xpath = "//div/div[text()='Support']")
+    public WebElement supportButton;
+
+   @FindBy(className = "popup-window-close-icon")
+    public WebElement closeButton;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
