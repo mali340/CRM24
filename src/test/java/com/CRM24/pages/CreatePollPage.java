@@ -14,20 +14,25 @@ public class CreatePollPage {
     @FindBy(id = "feed-add-post-form-tab-vote")
     public WebElement pollTab;
 
+    @FindBy(xpath = "//iframe[contains(@class, 'bx-editor-iframe')]")
+    public WebElement iframe;
+
+    @FindBy(xpath = "//body")
+    public WebElement messageBody;
+
     @FindBy(xpath = "//input[@id='question_0']")
     public WebElement questionInput;
 
-    @FindBy(xpath = "//input[@id='answer_0__0_']")
+    @FindBy(xpath = "//input[@placeholder='Answer  1']")
     public WebElement answer1Input;
 
-    @FindBy(xpath = "//input[@id='answer_0__1_']")
+    @FindBy(xpath = "//input[@placeholder='Answer  2']")
     public WebElement answer2Input;
 
     @FindBy(id = "blog-submit-button-save")
     public WebElement sendButton;
-
-
 }
+
 
 
 

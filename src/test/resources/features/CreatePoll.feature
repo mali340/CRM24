@@ -1,15 +1,21 @@
 Feature: Create Poll Functionality
 
-  Scenario Outline: User should be able to create a poll
-    Given user is logged in as "<userType>"
-    And user is on the homepage
-    When user clicks on the "Poll" tab
-    And user enters poll question and answers
-    And user clicks the send button
-    Then poll should be successfully created
+  @wip
+  Scenario Outline: User creates a poll with two options
+    Given user is on the login page
+    When user logs in as "<userType>" with "<username>" and "<password>"
+    And user clicks on the "Poll" tab
+    And user writes a poll question
+    And user enters poll options
+    And user sends the poll
+    Then poll should be visible on the homepage
 
     Examples:
-      | userType  |
-      | HR        |
-      | HelpDesk  |
-      | Marketing |
+      | userType   | username                | password  |
+      | hr         | hr10@cydeo.com           | UserUser  |
+      | help_desk  | helpdesk10@cydeo.com     | UserUser  |
+      | marketing  | marketing10@cydeo.com    | UserUser  |
+
+
+
+
