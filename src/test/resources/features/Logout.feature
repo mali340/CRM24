@@ -3,10 +3,7 @@ Feature: Different User Logout
   I want to log out of the system
 
   Background:
-    Given I am on the login page
-    When I enter "hr10@cydeo.com" as username, enter "UserUser" as password
-    And I click on the "Login" button
-
+    Given I am on the login page as HR user
 
   Scenario: Successful logout from dashboard as different user
     When I click the logout button

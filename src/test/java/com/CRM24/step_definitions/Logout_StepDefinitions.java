@@ -10,8 +10,6 @@ import io.cucumber.java.en.When;
 
 public class Logout_StepDefinitions {
 
-
-    LoginPage loginPage = new LoginPage();
     LogoutPage logoutPage = new LogoutPage();
 
 
