@@ -12,17 +12,15 @@ Feature: Configuration functionality
       | Change primary tool                |
       | Reset menu                         |
 
-
-  Scenario Outline: User clicks all options under Configure menu and sees the corresponding results
-    Given the "Configure" menu is open
-    When the user clicks all "<MenuItem>" options one by one
-    Then "<MenuItem>" should be displayed
-
-    Examples:
-      | MenuItem                           |
-      | Configure menu items               |
-      | Collapse menu                      |
-      | Remove current page from left menu |
-      | Add custom menu item               |
-      | Change primary tool                |
-      | Reset menu                         |
+@wip
+Scenario: User clicks all options under Configure menu and sees the corresponding results
+  Given the Configure menu is open
+  When the user clicks all MenuItem options one by one and then MenuItem should be displayed
+    | MenuItem                           |
+    | Configure menu items               |
+    | Collapse menu                      |
+    | Remove current page from left menu |
+    | Add custom menu item               |
+    | Change primary tool                |
+    | Reset menu                         |
+  Then each menu option should respond correctly

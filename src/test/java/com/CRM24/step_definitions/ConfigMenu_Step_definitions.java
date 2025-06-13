@@ -1,16 +1,19 @@
 package com.CRM24.step_definitions;
 
-
 import com.CRM24.pages.ConfigOptionsPage;
 import com.CRM24.pages.Configuration_Menu;
 import com.CRM24.pages.LoginPage;
+import com.CRM24.utilities.BrowserUtils;
+import com.CRM24.utilities.Driver;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -24,80 +27,118 @@ public class ConfigMenu_Step_definitions {
         login.login();
     }
 
-    @When("the user clicks on the {string} menu")
-    public void theUserClicksOnTheMenu(String configMenu) {
+    @When("the user clicks on the Configure menu")
+    public void theUserClicksOnTheConfigureMenu() {
         configuration_menu.ConfigureLink.click();
     }
 
     @Then("the user should see {int} options:")
-    public void theUserShouldSeeOptions(int expectedCount,List<String> expectedOptions) {
+    public void theUserShouldSeeOptions(int expectedCount, List<String> expectedOptions) {
         List<WebElement> actualOptions = configuration_menu.ConfigureMenuOptions;
         Assert.assertEquals("Number of visible menu options", expectedCount, actualOptions.size());
 
-        System.out.println("Options in the Configure menu:");
-        for (WebElement option : actualOptions) {
-            System.out.println(option.getText());
+        for (int i = 0; i < expectedOptions.size(); i++) {
+            String expected = expectedOptions.get(i).trim();
+            String actual = actualOptions.get(i).getText().trim();
+            Assert.assertEquals("Menu option mismatch at index " + i, expected, actual);
         }
 
     }
 
-//second Scenario:
 
+    //second Scenario:
 
-    @Given("the {string} menu is open")
-    public void the_menu_is_open(String ConfigMenu) {
+    @Given("the Configure menu is open")
+    public void theConfigureMenuIsOpen() {
         login.login();
         configuration_menu.ConfigureLink.click();
     }
 
 
-    @When("the user clicks all {string} options one by one")
-    public void theUserClicksAllOptionsOneByOne(String configOptions) {
+    List<String> clickedItems = new ArrayList<>();
+
+    @When("the user clicks all MenuItem options one by one and then MenuItem should be displayed")
+    public void theUserClicksAllMenuItemOptionsOneByOneAndThenMenuItemShouldBeDisplayed(DataTable menuItemsTable) {
+        List<String> menuItems = menuItemsTable.asList().subList(1, menuItemsTable.asList().size());
+
+        for (String each : menuItems) {
+            try {
+                configuration_menu.ConfigureLink.click();
 
 
-        configOptionsPage.firstOption.click();
-        configOptionsPage.saveBtn.click();
-        configuration_menu.ConfigureLink.click();
+                String xpath = "//span[@class='menu-popup-item-text' and normalize-space()='" + each + "']";
+                BrowserUtils.waitForPresenceOfElement(By.xpath(xpath), 5);
+                WebElement optionElement = Driver.getDriver().findElement(By.xpath(xpath));
+                BrowserUtils.waitForClickablility(optionElement, 5);
+                optionElement.click();
 
-        configOptionsPage.secondOption.click();
-        configOptionsPage.collapseBtn.click();
-        configuration_menu.ConfigureLink.click();
 
-        WebElement removeOption = configOptionsPage.thirdOption;
-        try {
-            if (!configOptionsPage.thirdOption.isEnabled() ||
-                    configOptionsPage.thirdOption.getAttribute("class").contains("menu-popup-item-disabled")) {
-                System.out.println("The 'Remove current page from left menu' option is disabled.");
-            } else {
-                configOptionsPage.thirdOption.click();
+                switch (each) {
+                    case "Configure menu items":
+
+                        BrowserUtils.waitForClickablility(configOptionsPage.saveBtn, 5);
+                        configOptionsPage.saveBtn.click();
+                        break;
+
+                    case "Collapse menu":
+                        BrowserUtils.waitForClickablility(configOptionsPage.collapseBtn, 5);
+                        configOptionsPage.collapseBtn.click();
+                        break;
+
+                    case "Remove current page from left menu":
+                        WebElement thirdOption = Driver.getDriver().findElement(By.xpath(xpath));
+                        if (!thirdOption.getAttribute("class").contains("menu-popup-item-disabled")) {
+                            thirdOption.click();
+                        } else {
+                            System.out.println("Option disabled: " + each);
+                        }
+                        break;
+
+                    case "Add custom menu item":
+                        BrowserUtils.waitForClickablility(configOptionsPage.CloseBtn, 5);
+                        configOptionsPage.CloseBtn.click();
+                        break;
+
+                    case "Change primary tool":
+                        BrowserUtils.waitForClickablility(configOptionsPage.closeItem, 5);
+                        configOptionsPage.closeItem.click();
+                        break;
+
+                    case "Reset menu":
+                        configOptionsPage.handleAlertIfPresent();
+                        break;
+
+                    default:
+                        System.out.println("Unknown option: " + each);
+                }
+
+                System.out.println("✅ Option handled: " + each);
+
+            } catch (Exception e) {
+                System.out.println("❌ Error with option: " + each);
+                e.printStackTrace();
             }
-        } catch (StaleElementReferenceException e) {
-            System.out.println("Element went stale. Re-locating...");
 
-            configuration_menu.ConfigureLink.click();
-            configOptionsPage.thirdOption.click();
+
+        }
+    }
+
+
+    @Then("each menu option should respond correctly")
+    public void eachMenuOptionShouldRespondCorrectly() {
+        List<String> expectedItems = Arrays.asList(
+                "Configure menu items",
+                "Collapse menu",
+                "Remove current page from left menu",
+                "Add custom menu item",
+                "Change primary tool",
+                "Reset menu"
+        );
+
+        for (String each : expectedItems) {
+            Assert.assertTrue("Menu option did not respond correctly: " + each, clickedItems.contains(each));
         }
 
-        configOptionsPage.fourthOption.click();
-        configOptionsPage.CloseBtn.click();
-        configuration_menu.ConfigureLink.click();
-
-        configOptionsPage.fifthOption.click();
-        configOptionsPage.closeItem.click();
-        configuration_menu.ConfigureLink.click();
-
-        configOptionsPage.sixthOption.click();
-        configOptionsPage.handleAlertIfPresent();
-        configuration_menu.ConfigureLink.click();
 
     }
-
-    @Then("{string} should be displayed")
-    public void should_be_displayed(String optionName) {
-        System.out.println("Verified that option was clicked: " + optionName);
-
-    }
-
-
-
 }
