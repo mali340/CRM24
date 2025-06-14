@@ -10,26 +10,28 @@ public class AppreciationPage {
 
     public AppreciationPage() {
 
-        PageFactory.initElements(Driver.getDriver(),this);
+        PageFactory.initElements(Driver.getDriver(), this);
 
     }
 
 
-       @FindBy (id = "id=\"feed-add-post-form-link-more\"")
-       public WebElement moreButton;
+    @FindBy(id = "checkbox-windows")
+    public WebElement windowsCheckbox;
 
 
-        @FindBy (xpath = "//span[text()=Appreciation']")
-        public WebElement appreciation;
+    @FindBy(xpath = "checkbox-macos")
+    public WebElement macCheckbox;
 
 
-        @FindBy (xpath = "//button[@id=\"blog-submit-button-save\"]")
-        public WebElement sendButton;
+    @FindBy(xpath = "checkbox-linux")
+    public WebElement linuxCheckbox;
 
-    @FindBy (xpath = "//body[@contenteditable=\"true\"]")
-    public WebElement messageBox;
+    @FindBy(id = "download-button")
+    public WebElement downloadButton;
 
-
-    @FindBy(className = "feed-add-info-text")
-      public WebElement errorMessage;
+    public void selectDesktopVersions() {
+        windowsCheckbox.click();
+        macCheckbox.click();
+        linuxCheckbox.click();
+    }
 }
