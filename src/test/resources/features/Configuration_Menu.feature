@@ -13,14 +13,17 @@ Feature: Configuration functionality
       | Reset menu                         |
 
 @wip
-Scenario: User clicks all options under Configure menu and sees the corresponding results
-  Given the Configure menu is open
-  When the user clicks all MenuItem options one by one and then MenuItem should be displayed
-    | MenuItem                           |
-    | Configure menu items               |
-    | Collapse menu                      |
-    | Remove current page from left menu |
-    | Add custom menu item               |
-    | Change primary tool                |
-    | Reset menu                         |
-  Then each menu option should respond correctly
+Scenario Outline: User clicks all options under Configure menu and sees the corresponding results
+  When the user logs in as "<user type>"
+  When the user clicks the configure menu
+  And the user clicks the "<menu option>"
+  Then the "<menu option>" should be displayed
+  Examples:
+    | user type | menu option                        |
+    | helpdesk  | Configure menu items               |
+    | marketing | Collapse menu                      |
+    | hr        | Remove current page from left menu |
+    | helpdesk  | Add custom menu item               |
+    | marketing | Change primary tool                |
+    | hr        | Reset menu                         |
+

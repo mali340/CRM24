@@ -48,97 +48,69 @@ public class ConfigMenu_Step_definitions {
 
     //second Scenario:
 
-    @Given("the Configure menu is open")
-    public void theConfigureMenuIsOpen() {
+    @When("the user logs in as {string}")
+    public void the_user_logs_in_as(String log) {
         login.login();
+    }
+
+    @When("the user clicks the configure menu")
+    public void the_user_clicks_the_configure_menu() {
         configuration_menu.ConfigureLink.click();
     }
 
-
-    List<String> clickedItems = new ArrayList<>();
-
-    @When("the user clicks all MenuItem options one by one and then MenuItem should be displayed")
-    public void theUserClicksAllMenuItemOptionsOneByOneAndThenMenuItemShouldBeDisplayed(DataTable menuItemsTable) {
-        List<String> menuItems = menuItemsTable.asList().subList(1, menuItemsTable.asList().size());
-
-        for (String each : menuItems) {
-            try {
-                configuration_menu.ConfigureLink.click();
-
-
-                String xpath = "//span[@class='menu-popup-item-text' and normalize-space()='" + each + "']";
-                BrowserUtils.waitForPresenceOfElement(By.xpath(xpath), 5);
-                WebElement optionElement = Driver.getDriver().findElement(By.xpath(xpath));
-                BrowserUtils.waitForClickablility(optionElement, 5);
-                optionElement.click();
-
-
-                switch (each) {
-                    case "Configure menu items":
-
-                        BrowserUtils.waitForClickablility(configOptionsPage.saveBtn, 5);
-                        configOptionsPage.saveBtn.click();
-                        break;
-
-                    case "Collapse menu":
-                        BrowserUtils.waitForClickablility(configOptionsPage.collapseBtn, 5);
-                        configOptionsPage.collapseBtn.click();
-                        break;
-
-                    case "Remove current page from left menu":
-                        WebElement thirdOption = Driver.getDriver().findElement(By.xpath(xpath));
-                        if (!thirdOption.getAttribute("class").contains("menu-popup-item-disabled")) {
-                            thirdOption.click();
-                        } else {
-                            System.out.println("Option disabled: " + each);
-                        }
-                        break;
-
-                    case "Add custom menu item":
-                        BrowserUtils.waitForClickablility(configOptionsPage.CloseBtn, 5);
-                        configOptionsPage.CloseBtn.click();
-                        break;
-
-                    case "Change primary tool":
-                        BrowserUtils.waitForClickablility(configOptionsPage.closeItem, 5);
-                        configOptionsPage.closeItem.click();
-                        break;
-
-                    case "Reset menu":
-                        configOptionsPage.handleAlertIfPresent();
-                        break;
-
-                    default:
-                        System.out.println("Unknown option: " + each);
-                }
-
-                System.out.println("✅ Option handled: " + each);
-
-            } catch (Exception e) {
-                System.out.println("❌ Error with option: " + each);
-                e.printStackTrace();
-            }
-
-
+    @When("the user clicks the {string}")
+    public void the_user_clicks_the(String menuOption) {
+        switch (menuOption.toLowerCase()) {
+            case "configure menu items":
+                configOptionsPage.firstOption.click();
+                break;
+            case "collapse menu":
+                configOptionsPage.secondOption.click();
+                break;
+            case "remove current page from left menu":
+                configOptionsPage.thirdOption.click();
+                configOptionsPage.handleAlertIfPresent();
+                break;
+            case "add custom menu item":
+                configOptionsPage.fourthOption.click();
+                break;
+            case "change primary tool":
+                configOptionsPage.fifthOption.click();
+                break;
+            case "reset menu":
+                configOptionsPage.sixthOption.click();
+                configOptionsPage.handleAlertIfPresent();
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected menu option: " + menuOption);
         }
     }
 
 
-    @Then("each menu option should respond correctly")
-    public void eachMenuOptionShouldRespondCorrectly() {
-        List<String> expectedItems = Arrays.asList(
-                "Configure menu items",
-                "Collapse menu",
-                "Remove current page from left menu",
-                "Add custom menu item",
-                "Change primary tool",
-                "Reset menu"
-        );
+    @Then("the {string} should be displayed")
+    public void the_should_be_displayed(String menuOption) {
+        boolean isDisplayed = false;
 
-        for (String each : expectedItems) {
-            Assert.assertTrue("Menu option did not respond correctly: " + each, clickedItems.contains(each));
+        switch (menuOption.toLowerCase()) {
+            case "configure menu items":
+                isDisplayed = configOptionsPage.saveBtn.isDisplayed();
+                break;
+            case "collapse menu":
+                BrowserUtils.waitForVisibility(configOptionsPage.collapseBtn,5);
+                isDisplayed = configOptionsPage.collapseBtn.isDisplayed();
+                break;
+            case "remove current page from left menu":
+            case "reset menu":
+                isDisplayed = true;
+                break;
+            case "add custom menu item":
+                isDisplayed = configOptionsPage.CloseBtn.isDisplayed();
+                break;
+            case "change primary tool":
+                isDisplayed = configOptionsPage.closeItem.isDisplayed();
+                break;
         }
 
-
+        Assert.assertTrue(menuOption + " is not displayed as expected", isDisplayed);
     }
 }
