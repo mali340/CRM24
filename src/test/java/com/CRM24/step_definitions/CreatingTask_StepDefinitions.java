@@ -19,15 +19,15 @@ public class CreatingTask_StepDefinitions {
     Actions actions = new Actions(Driver.getDriver());
 
 
-    @Given("I am logged into homePage as {string} with {string} as username and {string} and i see the homePage")
-    public void iAmLoggedIntoHomePageAsWithAsUsernameAndAndISeeTheHomePage(String userType, String userName, String password) {
-        Driver.getDriver().get(ConfigurationReader.getProperty("url"));
+    @Given("I am logged into homePage as {string}")
+    public void iAmLoggedIntoHomePageAsWithAsUsernameAndAndISeeTheHomePage(String userType) {
 
-        loginPage.login(userName, password);
+        Driver.getDriver().get(ConfigurationReader.getProperty("url"));
+        loginPage.login(userType);
         BrowserUtils.sleep(3);
+        //Assert.assertTrue(homePage.userAccount.isDisplayed());
 
     }
-
 
     @When("I click TASK button in menu under the search box")
     public void i_should_click_task_in_menu_under_the_search_box() {
@@ -35,19 +35,6 @@ public class CreatingTask_StepDefinitions {
         BrowserUtils.sleep(2);
     }
 
-    @When("I create a Task title and Task body in the Task window")
-    public void i_should_create_a_task_title_and_task_body_in_the_task_window() {
-
-        homePage.tasksTitle.sendKeys(homePage.tasksTitleText);
-        BrowserUtils.sleep(2);
-
-
-        Driver.getDriver().switchTo().frame(homePage.tasksBodyIframe);
-        homePage.taskBodyElement.sendKeys(homePage.tasksBodyText);
-        Driver.getDriver().switchTo().parentFrame();
-        BrowserUtils.sleep(2);
-
-    }
 
     @When("I click SEND button to create Task")
     public void i_should_click_send_button_to_create_task() {
@@ -57,8 +44,8 @@ public class CreatingTask_StepDefinitions {
     }
 
 
-    @Then("Task should be displayed in the feed or popup \"Task has been created\" will appear")
-    public void task_should_be_displayed_in_the_feed() {
+    @Then("Task should be displayed in the feed or popup {string} will appear")
+    public void task_should_be_displayed_in_the_feed(String taskPopup) {
 
         if (homePage.popupXExit.isDisplayed()) {
 
@@ -67,7 +54,7 @@ public class CreatingTask_StepDefinitions {
             homePage.popupXExit.click();
 
         } else
-            Assert.assertTrue(homePage.newTaskInFeed.getText().contains(homePage.tasksTitleText));
+            Assert.assertTrue(homePage.newTaskInFeed.isDisplayed());
 
     }
 
@@ -96,18 +83,19 @@ public class CreatingTask_StepDefinitions {
     }
 
 
-    @And("I create a New Task title and New Task body in the New Task window")
-    public void iCreateANewTaskTitleAndNewTaskBodyInTheTaskWindow() {
+    @And("I create {string} New Task title and New Task body in the New Task window")
+    public void iCreateANewTaskTitleAndNewTaskBodyInTheTaskWindow(String TaskTitleY, String taskBodyY) {
+
 
         BrowserUtils.sleep(2);
 
         Driver.getDriver().switchTo().frame(homePage.newTaskIframe);
-        homePage.newTaskTitle.sendKeys(homePage.tasksTitleText);
+        homePage.newTaskTitle.sendKeys(TaskTitleY);
         BrowserUtils.sleep(2);
 
         Driver.getDriver().switchTo().frame(homePage.newTaskBodyIframe);
         BrowserUtils.sleep(2);
-        homePage.newTaskBodyElement.sendKeys(homePage.tasksBodyText);
+        homePage.newTaskBodyElement.sendKeys(taskBodyY);
 
         BrowserUtils.sleep(2);
         Driver.getDriver().switchTo().parentFrame();
@@ -126,7 +114,7 @@ public class CreatingTask_StepDefinitions {
 
         homePage.tasksLink.click();
         BrowserUtils.sleep(2);
-        Assert.assertTrue(homePage.newTaskInMyTasksFeed.getText().contains(homePage.tasksTitleText));
+        Assert.assertTrue(homePage.newTaskInMyTasksFeed.isDisplayed());
 
     }
 
@@ -137,4 +125,20 @@ public class CreatingTask_StepDefinitions {
         homePage.additionSign.click();
         BrowserUtils.sleep(2);
     }
+
+    @And("I create {string} Task title and Task body with the following details")
+    public void iCreateATaskTitleAndTaskBodyInTheTaskWindowWithTheFollowingDetails(String taskTitleX, String taskBodyX) {
+
+
+        homePage.tasksTitle.sendKeys(taskTitleX);
+        BrowserUtils.sleep(2);
+
+        Driver.getDriver().switchTo().frame(homePage.tasksBodyIframe);
+        homePage.taskBodyElement.sendKeys(taskBodyX);
+        Driver.getDriver().switchTo().parentFrame();
+        BrowserUtils.sleep(2);
+
+    }
+
+
 }

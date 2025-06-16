@@ -17,6 +17,8 @@ public class HomePage {
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
+    @FindBy (xpath = "//span[@id='user-name']")
+    public WebElement userAccount;
 
     @FindBy(xpath = "//span[.='Task']")
     public WebElement taskButton;
@@ -83,15 +85,6 @@ public class HomePage {
     public WebElement newTaskBodyElement;
 
 
-    public void alertHandle(){
-        Alert alert = Driver.getDriver().switchTo().alert();
-        alert.accept();
-    }
-
-    public String tasksTitleText = "Project X Practice";
-    public String tasksBodyText = "1. Project X Preparation " + "\n" +
-                                  "2. Assign the project " + "\n" +
-                                  "3. Monitor";
 
 
 }
