@@ -44,14 +44,14 @@ public class CreatingTask_StepDefinitions {
     }
 
 
-    @Then("Task should be displayed in the feed or popup {string} will appear")
-    public void task_should_be_displayed_in_the_feed(String taskPopup) {
+    @Then("Task should be displayed in the feed or popup Task has been created will appear")
+    public void task_should_be_displayed_in_the_feed() {
 
-        if (homePage.popupXExit.isDisplayed()) {
+        if (homePage.popupExit.isDisplayed()) {
 
-            Assert.assertTrue(homePage.popupXExit.isDisplayed());
+            Assert.assertTrue(homePage.popupExit.isDisplayed());
 
-            homePage.popupXExit.click();
+            homePage.popupExit.click();
 
         } else
             Assert.assertTrue(homePage.newTaskInFeed.isDisplayed());

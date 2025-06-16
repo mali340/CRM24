@@ -17,8 +17,6 @@ public class HomePage {
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
-    @FindBy (xpath = "//span[@id='user-name']")
-    public WebElement userAccount;
 
     @FindBy(xpath = "//span[.='Task']")
     public WebElement taskButton;
@@ -42,7 +40,7 @@ public class HomePage {
 
 
     @FindBy(className = "popup-window-close-icon")
-    public WebElement popupXExit;
+    public WebElement popupExit;
 
 
     @FindBy(id = "blog-submit-button-cancel")
