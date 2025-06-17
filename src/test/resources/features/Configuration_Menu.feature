@@ -3,7 +3,7 @@ Feature: Configuration functionality
 
   Scenario:   User logs in and sees 6 options under the Configure menu
     Given user is already logged in to The CRM
-    When  the user clicks on the "Configure" menu
+    When  the user clicks on the Configure menu
     Then  the user should see 6 options:
       | Configure menu items               |
       | Collapse menu                      |

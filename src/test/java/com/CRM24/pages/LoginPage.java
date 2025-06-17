@@ -34,4 +34,25 @@ public class LoginPage {
 
 
     }
+    public void login(String userType) {
+        String username ;
+        String password = "UserUser";  // Assuming all users share this password
+
+        switch (userType.trim().toLowerCase()) {
+            case "helpdesk":
+                username = "helpdesk10@cydeo.com";
+                break;
+            case "marketing":
+                username = "marketing10@cydeo.com";
+                break;
+            case "hr":
+                username = "hr10@cydeo.com";
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown user type: " + userType);
+        }
+        inputUsername.sendKeys(username);
+        inputPassword.sendKeys(password);
+        loginButton.click();
+}
 }

@@ -4,16 +4,13 @@ import com.CRM24.pages.ConfigOptionsPage;
 import com.CRM24.pages.Configuration_Menu;
 import com.CRM24.pages.LoginPage;
 import com.CRM24.utilities.BrowserUtils;
-import com.CRM24.utilities.Driver;
-import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebElement;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 
@@ -50,7 +47,7 @@ public class ConfigMenu_Step_definitions {
 
     @When("the user logs in as {string}")
     public void the_user_logs_in_as(String log) {
-        login.login();
+        login.login(log);
     }
 
     @When("the user clicks the configure menu")
@@ -60,31 +57,17 @@ public class ConfigMenu_Step_definitions {
 
     @When("the user clicks the {string}")
     public void the_user_clicks_the(String menuOption) {
-        switch (menuOption.toLowerCase()) {
-            case "configure menu items":
-                configOptionsPage.firstOption.click();
-                break;
-            case "collapse menu":
-                configOptionsPage.secondOption.click();
-                break;
-            case "remove current page from left menu":
-                configOptionsPage.thirdOption.click();
-                configOptionsPage.handleAlertIfPresent();
-                break;
-            case "add custom menu item":
-                configOptionsPage.fourthOption.click();
-                break;
-            case "change primary tool":
-                configOptionsPage.fifthOption.click();
-                break;
-            case "reset menu":
-                configOptionsPage.sixthOption.click();
-                configOptionsPage.handleAlertIfPresent();
-                break;
-            default:
-                throw new IllegalArgumentException("Unexpected menu option: " + menuOption);
+        WebElement optionToClick = configOptionsPage.getMenuOption(menuOption);
+
+        if (menuOption.equalsIgnoreCase("remove current page from left menu") ||
+                menuOption.equalsIgnoreCase("reset menu")) {
+            optionToClick.click();
+            configOptionsPage.handleAlertIfPresent();
+        } else {
+            optionToClick.click();
         }
     }
+
 
 
     @Then("the {string} should be displayed")
