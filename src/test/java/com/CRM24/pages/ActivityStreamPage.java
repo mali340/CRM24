@@ -14,22 +14,31 @@ public class ActivityStreamPage {
 
 
 
-    @FindBy(xpath = "//span[@id='feed-add-post-form-tab-message']")
+    @FindBy(css="#feed-add-post-form-tab-message")
     public WebElement messageTab;
 
-    @FindBy(xpath = "//body[@contenteditable ='true']")
-    public WebElement messageInputBox;
+    @FindBy(xpath = "//body[@contenteditable='true']")
+    //@FindBy(xpath = "//body[@style='min-height: 119px;']")
+    public WebElement messageTextArea;
 
-    @FindBy(id = "blog-submit-button-save")
+    @FindBy(xpath = "//*[@id=\"blog-submit-button-save\"]")
     public WebElement sendButton;
 
-    @FindBy(css = "iframe[class='bx-editor-iframe']")
+    @FindBy(xpath = "//iframe[@class='bx-editor-iframe']")
+    //@FindBy(xpath = "//iframe[contains(@class, 'bx-editor-iframe')]")
         public WebElement iFrameMessage;
 
-    @FindBy(xpath = "//div[@class ='feed-post-text-block-inner-inner']")
+    @FindBy(xpath = "//div[contains(@id,'blog_post_body_')]")
     public WebElement messageInFeed;
 
+
+    @FindBy(id ="user-name")
+    public WebElement userAccount;
+
+    @FindBy(xpath = "//*[@id=\"blog-submit-button-cancel\"]")
+    public WebElement cancelButton;
 
 
 
 }
+

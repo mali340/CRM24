@@ -485,4 +485,17 @@ public class BrowserUtils {
     }
 
 
+    public static void waitForInvisibility(WebElement element) {
+         new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10)).until(ExpectedConditions.invisibilityOf(element));
+    }
+
+    public  boolean isElementDisplayed(WebElement element) {
+        try {
+            return element.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
 }
